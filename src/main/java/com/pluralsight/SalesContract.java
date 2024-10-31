@@ -1,7 +1,17 @@
 package com.pluralsight;
 
-public class SalesContract {
-    
+public class SalesContract extends Contract {
+    private double salesTaxAmount = 0.05;
+    private int recordingFee = 100;
+    private int processingFee = 295;
+
+
+
+
+    public SalesContract(String date, String customerName, String customerEmail, String vehicleSold) {
+        super(date, customerName, customerEmail, vehicleSold);
+    }
+
     @Override
     public double getTotalPrice() {
         return getVehicleSold().getPrice() + salesTaxAmount + recordingFee + processingFee;
@@ -11,6 +21,7 @@ public class SalesContract {
     public double getMonthlyPayment() {
         int numberOfPayments = 0;
         double interestRate = 0;
+        boolean financeOption = false;
         if (financeOption) {
             if (getVehicleSold().getPrice() >= 10000) {
                 numberOfPayments = 48;
