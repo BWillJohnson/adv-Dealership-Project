@@ -24,7 +24,7 @@ public class UserInterface {
             System.out.println("5. Get vehicles by mileage");
             System.out.println("6. Get vehicles by type");
             System.out.println("7. Get all vehicles");
-            System.out.println("8. Sales/Lease a carWorldVehicle");
+            System.out.println("8. Sales/Leasing a carWorldVehicle");
             System.out.println("9. Add vehicle");
             System.out.println("10. Remove vehicle");
             System.out.println("0. Quit");
@@ -55,12 +55,8 @@ public class UserInterface {
                     processGetAllVehiclesRequest();
                     break;
                 case "8":
-                    /
+                    processSalesOrLeasingRequest();
                     break;
-                case "9":
-                    /
-                    break;
-
                 case "10":
                     processAddVehicleRequest();
                     break;
@@ -191,6 +187,28 @@ public class UserInterface {
 
         DealershipFileManager manager = new DealershipFileManager();
         manager.saveDealership(dealership);
+    }
+    public void processSalesOrLeasingRequest(){
+        System.out.print("Enter the VIN of the vehicle you wish to remove: ");
+        int vin = scanner.nextInt();
+
+        for (Vehicle vehicle : dealership.getAllVehicles()) {
+            
+            if (vehicle.getVin() == vin) {
+                dealership.addVehicle(vehicle);
+                System.out.println("Vehicle VIN successfully!");
+                System.out.println("Enter your Local Date: ");
+                String Date =scanner.nextLine();
+                System.out.println("Enter your name: ");
+                String customerName = scanner.nextLine();
+                System.out.println("Enter Email: ");
+                String customerEmail = scanner.nextLine();
+                System.out.println(" Enter the Vehicle that has been sold: ");
+                String vehicleSold = scanner.nextLine();
+
+                break;
+            }
+        }
     }
 
     private void init() {

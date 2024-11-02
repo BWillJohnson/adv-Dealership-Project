@@ -26,7 +26,7 @@ public class LeaseContract extends  Contract {
         this.leaseFee = leaseFee;
     }
 
-    public LeaseContract(String date, String customerName, String customerEmail, String vehicleSold) {
+    public LeaseContract(String date, String customerName, String customerEmail, Vehicle vehicleSold) {
         super(date, customerName, customerEmail, vehicleSold);
     }
 

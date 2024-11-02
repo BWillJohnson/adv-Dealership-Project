@@ -4,25 +4,55 @@ public class SalesContract extends Contract {
     private double salesTaxAmount = 0.05;
     private int recordingFee = 100;
     private int processingFee = 295;
-
-
-
-
-    public SalesContract(String date, String customerName, String customerEmail, String vehicleSold) {
+    private boolean finance = false;
+    public SalesContract(String date, String customerName, String customerEmail, Vehicle vehicleSold) {
         super(date, customerName, customerEmail, vehicleSold);
     }
 
+    public double getSalesTaxAmount() {
+        return salesTaxAmount;
+    }
+
+    public void setSalesTaxAmount(double salesTaxAmount) {
+        this.salesTaxAmount = salesTaxAmount;
+    }
+
+    public int getRecordingFee() {
+        return recordingFee;
+    }
+
+    public void setRecordingFee(int recordingFee) {
+        this.recordingFee = recordingFee;
+    }
+
+    public int getProcessingFee() {
+        return processingFee;
+    }
+
+    public void setProcessingFee(int processingFee) {
+        this.processingFee = processingFee;
+    }
+
+    public boolean isFinance() {
+        return finance;
+    }
+
+    public void setFinance(boolean finance) {
+        this.finance = finance;
+    }
+
     @Override
-    public double getTotalPrice() {
+    public double getTotalPrice()
+    {
         return getVehicleSold().getPrice() + salesTaxAmount + recordingFee + processingFee;
     }
 
     @Override
-    public double getMonthlyPayment() {
+    public double getMonthlyPayment()
+    {
         int numberOfPayments = 0;
         double interestRate = 0;
-        boolean financeOption = false;
-        if (financeOption) {
+        if (finance) {
             if (getVehicleSold().getPrice() >= 10000) {
                 numberOfPayments = 48;
                 interestRate = 4.25 / 1200;
