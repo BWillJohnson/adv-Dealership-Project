@@ -193,7 +193,7 @@ public class UserInterface {
         int vin = scanner.nextInt();
 
         for (Vehicle vehicle : dealership.getAllVehicles()) {
-            
+
             if (vehicle.getVin() == vin) {
                 dealership.addVehicle(vehicle);
                 System.out.println("Vehicle VIN successfully!");
@@ -205,6 +205,7 @@ public class UserInterface {
                 String customerEmail = scanner.nextLine();
                 System.out.println(" Enter the Vehicle that has been sold: ");
                 String vehicleSold = scanner.nextLine();
+                contractDataManager contract = new contractDataManager();
 
                 break;
             }
