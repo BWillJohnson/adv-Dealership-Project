@@ -6,43 +6,50 @@ import java.util.List;
 
 public class contractDataManager {
     private static final String FILE_NAME1 = "contract.csv";
-    public Contract getContract() {
-        Contract contract1 = new SalesContract();
-        Contract contract2 = new LeasingContract();
-        List<Contract> newContract = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_NAME1))){
-            String fileLine;
-            int fileLineNum = 0;
-            while ((fileLine = reader.readLine()) != null){
-                String[] points = fileLine.split("\\|");
-                if (fileLineNum == 0){
-                    String contractType = points[0];
-                    String date = points[1];
-                    String customerName = points[2];
-                    String customerEmail = points[3];
-                    int vehicleVin = Integer.parseInt(points[4]);
-                    int vehicleYear = Integer.parseInt(points[5]);
-                    String vehicleMake = points[6];
-                    String vehicleModel = points[7];
-                    String vehicleType = points[8];
-                    String color = points[9];
-                    int odometer = Integer.parseInt(points[10]);
-                    double price = Double.parseDouble(points[11]);
-                    double salesTaxAmount = Double.parseDouble(points[12]);
+    public static void saveContract(Contract contract) {
 
+       try(BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_NAME1))) {
+           if (contract instanceof SalesContract contractOfSales){
+               writer.write(contract.getDate()+  " | ");
+               writer.write(contract.getCustomerEmail()+  " | ");
+               writer.write( contract.getCustomerName()+  " | ");
+               writer.write( contract.vehicleSold.getVin()+  " | ");
+               writer.write( contract.vehicleSold.getYear()+  " | ");
+               writer.write( contract.vehicleSold.getMake()+  " | ");
+               writer.write( contract.vehicleSold.getModel()+  " | ");
+               writer.write( contract.vehicleSold.getVehicleType()+  " | ");
+               writer.write( contract.vehicleSold.getColor()+  " | ");
+               writer.write( contract.vehicleSold.getOdometer()+  " | ");
+               writer.write( contract.vehicleSold.getPrice()+  " | ");
+               writer.write( ((SalesContract) contract).getSalesTaxAmount()+  " | ");
+               writer.write( ((SalesContract) contract).getRecordingFee()+  " | ");
+               writer.write(((SalesContract) contract).getProcessingFee()+ " | ");
+               writer.write( contract.getTotalPrice()+  " | ");
+               writer.write( contract.getMonthlyPayment()+  " | ");
 
-                    String vehicleSold = points[];
-                    double totalPrice = Double.parseDouble(points[]);
-                    double monthlyPayment = Double.parseDouble(points[]);
-                   newContract
+           } else if (contract instanceof LeaseContract) {
+               writer.write(contract.getDate()+  " | ");
+               writer.write(contract.getCustomerEmail()+  " | ");
+               writer.write( contract.getCustomerName()+  " | ");
+               writer.write( contract.vehicleSold.getVin()+  " | ");
+               writer.write( contract.vehicleSold.getYear()+  " | ");
+               writer.write( contract.vehicleSold.getMake()+  " | ");
+               writer.write( contract.vehicleSold.getModel()+  " | ");
+               writer.write( contract.vehicleSold.getVehicleType()+  " | ");
+               writer.write( contract.vehicleSold.getColor()+  " | ");
+               writer.write( contract.vehicleSold.getOdometer()+  " | ");
+               writer.write( contract.vehicleSold.getPrice()+  " | ");
+               writer.write( ((LeaseContract) contract).getExpectedEndingValue()+  " | ");
+               writer.write( ((LeaseContract) contract).getLeaseFee()+  " | ");
+               writer.write( contract.getTotalPrice()+  " | ");
+               writer.write( contract.getMonthlyPayment()+  " | ");
+           }else {
+               System.err.println("I knew it was you messing it up!");
+           }
 
-                }
+       }catch (Exception e){
+           System.err.println("!Notice! error writing contract to  file!");
+       }
 
-            }
-
-        }catch (Exception e){
-
-        }
-        return null;
     }
 }

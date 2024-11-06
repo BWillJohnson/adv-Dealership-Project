@@ -1,12 +1,20 @@
 package com.pluralsight;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SalesContract extends Contract {
     private double salesTaxAmount = 0.05;
     private int recordingFee = 100;
     private int processingFee = 295;
     private boolean finance = false;
-    public SalesContract(String date, String customerName, String customerEmail, Vehicle vehicleSold) {
+
+    public SalesContract(String date, String customerName, String customerEmail, Vehicle vehicleSold, double salesTaxAmount, int recordingFee, int processingFee, boolean finance) {
         super(date, customerName, customerEmail, vehicleSold);
+        this.salesTaxAmount = salesTaxAmount;
+        this.recordingFee = recordingFee;
+        this.processingFee = processingFee;
+        this.finance = false;
     }
 
     public double getSalesTaxAmount() {
