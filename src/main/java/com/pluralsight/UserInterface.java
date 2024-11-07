@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class UserInterface {
 
     private Dealership dealership;
-    private Scanner scanner;
+    private final Scanner scanner;
 
     public UserInterface() {
         scanner = new Scanner(System.in);
@@ -33,45 +33,21 @@ public class UserInterface {
             String response = scanner.nextLine();
 
             switch (response) {
-                case "1":
-                    processGetByPriceRequest();
-                    break;
-                case "2":
-                    processGetByMakeModelRequest();
-                    break;
-                case "3":
-                    processGetByYearRequest();
-                    break;
-                case "4":
-                    processGetByColorRequest();
-                    break;
-                case "5":
-                    processGetByMileageRequest();
-                    break;
-                case "6":
-                    processGetByVehicleTypeRequest();
-                    break;
-                case "7":
-                    processGetAllVehiclesRequest();
-                    break;
-                case "8":
-                    processSalesOrLeasingRequest();
-                    break;
-                case "10":
-                    processAddVehicleRequest();
-                    break;
-                case "11":
-                    processRemoveVehicleRequest();
-                    break;
-                case "0":
-                    quit = true;
-                    break;
-                default:
-                    System.out.println("Invalid choice. Please try again.");
+                case "1" -> processGetByPriceRequest();
+                case "2" -> processGetByMakeModelRequest();
+                case "3" -> processGetByYearRequest();
+                case "4" -> processGetByColorRequest();
+                case "5" -> processGetByMileageRequest();
+                case "6" -> processGetByVehicleTypeRequest();
+                case "7" -> processGetAllVehiclesRequest();
+                case "8" -> processSalesOrLeasingRequest();
+                case "10" -> processAddVehicleRequest();
+                case "11" -> processRemoveVehicleRequest();
+                case "0" -> quit = true;
+                default -> System.out.println("Invalid choice. Please try again.");
             }
         }
     }
-
 
 
     public void processGetByPriceRequest() {
@@ -164,8 +140,59 @@ public class UserInterface {
         System.out.println("Vehicle added successfully!");
         DealershipFileManager manager = new DealershipFileManager();
         manager.saveDealership(dealership);
+
+
     }
 
+
+
+    private void processSalesOrLeasingRequest() {
+        System.out.println("What is the VIN of the vehicle you would like to buy");
+        int vin = scanner.nextInt();
+        scanner.nextLine();
+
+        contractDataManager contractDataManager = new contractDataManager();
+        Vehicle vehicleToFind = null;
+        for (Vehicle vehicle : dealership.getAllVehicles()) {
+            if (vin == vehicle.getVin()) {
+                vehicleToFind = vehicle;
+                break;
+
+            }
+
+        }
+        System.out.println("What is the date?");
+        String date = scanner.nextLine();
+        System.out.println("What is your name?");
+        String name = scanner.nextLine();
+        System.out.println("What is your email?");
+        String email = scanner.nextLine();
+        System.out.println("Would you like to lease or buy?");
+        String leaseOrBuy = scanner.nextLine();
+
+        boolean finance;
+        if (leaseOrBuy.equalsIgnoreCase("buy")) {
+            System.out.println("Would you like to finance the vehicle?");
+            finance = scanner.nextLine().equalsIgnoreCase("yes");
+            SalesContract salesContract = new SalesContract(date, name, email, vehicleToFind, finance);
+            System.out.println("Total Price: $ " + salesContract.getTotalPrice());
+
+            if (finance) {
+                System.out.println("Monthly payment: $ " + salesContract.getMonthlyPayment());
+            }
+            contractDataManager.saveContract(salesContract);//writes contract to contract csv
+            dealership.removeVehicle(vehicleToFind);
+        } else if (leaseOrBuy.equalsIgnoreCase("Lease")) {
+            LeaseContract leaseContract = new LeaseContract(date, name, email, vehicleToFind);
+            System.out.println("Total price: $" + leaseContract.getTotalPrice());
+            System.out.println("Monthly payment: $" + leaseContract.getMonthlyPayment() + " for 36 months!");
+            contractDataManager.saveContract(leaseContract);
+            dealership.removeVehicle(vehicleToFind);
+
+        } else {
+            System.out.println("Invalid try again!");
+        }
+    }
     public void processRemoveVehicleRequest() {
         System.out.print("Enter the VIN of the vehicle you wish to remove: ");
         int vin = scanner.nextInt();
@@ -187,29 +214,8 @@ public class UserInterface {
 
         DealershipFileManager manager = new DealershipFileManager();
         manager.saveDealership(dealership);
-    }
-    public void processSalesOrLeasingRequest(){
-        System.out.print("Enter the VIN of the vehicle you wish to remove: ");
-        int vin = scanner.nextInt();
 
-        for (Vehicle vehicle : dealership.getAllVehicles()) {
 
-            if (vehicle.getVin() == vin) {
-                dealership.addVehicle(vehicle);
-                System.out.println("Vehicle VIN successfully!");
-                System.out.println("Enter your Local Date: ");
-                String Date =scanner.nextLine();
-                System.out.println("Enter your name: ");
-                String customerName = scanner.nextLine();
-                System.out.println("Enter Email: ");
-                String customerEmail = scanner.nextLine();
-                System.out.println(" Enter the Vehicle that has been sold: ");
-                String vehicleSold = scanner.nextLine();
-                contractDataManager contract = new contractDataManager();
-
-                break;
-            }
-        }
     }
 
     private void init() {
@@ -221,6 +227,7 @@ public class UserInterface {
         for (Vehicle vehicle : vehicles) {
             System.out.println(vehicle.toString());
         }
-    }
 
+    }
 }
+

@@ -4,12 +4,14 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class DealershipFileManager {
+    private static final String FILE_NAME2 = "adv.dealership.csv";
+
 
     public Dealership getDealership() {
         Dealership dealership = null;
         ArrayList<Vehicle> vehicles = new ArrayList<>();
 
-        try (BufferedReader br = new BufferedReader(new FileReader("dealership.csv"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(FILE_NAME2))) {
             String line;
             int lineNumber = 0;
             while ((line = br.readLine()) != null) {
@@ -47,7 +49,7 @@ public class DealershipFileManager {
     }
 
     public void saveDealership(Dealership dealership) {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter("dealership.csv"))) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_NAME2))) {
             // Write dealership information
             bw.write(dealership.getName() + "|" + dealership.getAddress() + "|" + dealership.getPhone());
             bw.newLine();
