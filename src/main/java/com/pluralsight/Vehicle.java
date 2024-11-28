@@ -70,6 +70,7 @@ public class Vehicle {
     }
 
     public int getOdometer() {
+
         return odometer;
     }
 
